@@ -2,10 +2,13 @@
 use strict;
 use FindBin '$Bin';
 use Cwd qw(abs_path getcwd);
-use File::basename wq(basename dirname);
+use File::basename qw(basename dirname);
 use Getopt::Long;
 my $version="18.8.27";
-
+my $begin_time=time();
+my $start_time=localtime($begin_time);
+my $format_time_start=&getFormatTime($start_time);
+print "Program start:$format_time_start;\n";
 #getoptions
 my %para;
 GetOptions(\%para,"fasta=s","position=s","od=s","h");
@@ -38,6 +41,10 @@ for my $row(0..$#position){
   }
 }
 close $out;
+my $end_time=time();
+my $end_time_1=localtime($end_time);
+my $end_time_format=&getFormatTime($end_time);
+print "work end time:","$end_time_format.","total elapse time:","time()-$begin_time";
 
 #read position file
 sub read_position{
@@ -74,6 +81,15 @@ sub read_genome{
     }
   }
   close $in;
+}
+
+
+
+sub getFormatTime{
+        my($sec, $min, $hour, $day, $mon, $year, $wday, $yday, $isdst) = @_;
+        $wday = $yday = $isdst = 0;
+        my $format_time=sprintf("%4d-%02d-%02d %02d:%02d:%02d", $year+1900, $mon+1, $day, $hour, $min, $sec);
+        return $format_time;
 }
 
 
