@@ -10,12 +10,11 @@ use Getopt::Long;
 my($fastq,$quaASCII,$od);
 GetOptions(
   "fastq:s" => \$fastq,
+  "ascii:s" => \$quaASCII,
   "od:s"    => \$od,
   "h|?"     => \&USAGE,
 ) or &USAGE;
-
-
-
+&USAGE unless ($fastq and $uaAscii and $od);
 
 
 my %ascii=();
@@ -31,18 +30,15 @@ sub read_quaASCII{
 }
 
 
-
-
-
-
-
-
+my $abs_file=abs_path($od);
+mkdir "$abs_file/Result" unless -d "$abs_file/Result";
+open(my $out,"$abs_file/Result");
 my $count=0;
 while(<$in>){
   chomp;
   if($count % 4==0){
     my $read_id=$_;
-    print $out $read_id,"Tranfer qua into numerical value","\n";
+    print $out $read_id,"Tranfer quality score into numerical value","\n";
   }elsif($count % 4 ==1){
     my $read_seq=$_;
     print $out $read_seq,"\n";
@@ -54,16 +50,48 @@ while(<$in>){
     my @temp=split(//,$_);
     while(<@temp>){
       if(exists $ascii{$_}){
-        my $
+        my $err_probability=&exponent($ascii{$_});
+        print $out $format,":";
       }
-
+      print $out,"\n";
     }
   }
   $count++;
 }
 
 
-sub log10{
+sub exponent{
   my $n=shift;
-  return 10
+  my $res=10**(-0.1*$n);
+  my $format=sprintf("%-5.4s",$res); # - left alignment,interval space for 5
+  return $format;
 }
+
+sub USAGE{
+    my $usag=<<"USAGE";
+    ----------------------------------------------------
+    Manual page:
+      Contact:honghh\@biomarker.com.cn
+    Usage:
+      Options:
+      -fastq fastq file,forced;
+      -ascii file,forced;
+      -od output file;
+      -h  show the help;
+    Example:
+      List_fastq_base_quality.pl -fastq <file> -ascii <file> -od <file>
+    ----------------------------------------------------
+    USAGE
+    print $usage;
+    exit(1);
+}
+
+__END__
+ascii file format below:
+! 0
+" 1
+# 2
+$ 3
+% 4
+& 5
+...
