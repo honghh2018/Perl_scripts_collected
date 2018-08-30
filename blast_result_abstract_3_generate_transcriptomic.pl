@@ -17,14 +17,10 @@ for(<$in1>){
 }
 close $in1;
 $/="\n";
-while(<$in2>){
+while(<$in2>){  #use filter file to inquire transcription file(fasta),no reverse
         chomp;
-        #my $temp=(split /\|/,$_,2)[0];
         my $temp1=(split /\s+/,$_,2)[0];
         for my $key(keys %fasta){
-                #my $head=(split /\|/,$key,2)[0];
-                #print "$temp","\n";
-                #if($head eq $temp){
                 if($temp1 eq $key){
                         print $out ">",$_,"\n";
                         print $out $fasta{$key},"\n";
