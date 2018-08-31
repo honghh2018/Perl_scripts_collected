@@ -31,7 +31,7 @@ while(<$in>){
   my $len;
   my($Gene_id,$seq)=split/\n/,$_,2;
   $Gene_id=$Gene_id =~/(.){10}/;
-  $seq=$seq=~s/\n//g;
+  $seq=~s/\n//g;
   $len=length($seq);
   $fasta{$Gene_id}{$seq}=$len;
 }
@@ -60,7 +60,7 @@ my $end_time=time();
 print "Finish work,elapse time:$begin_time-$end_time\n";
 my @array=();
 foreach my $firstkey(keys %fasta){
-  foreach my $secondkey(keys %{$fasta{$firstkey}}){
+    foreach my $secondkey(keys %{$fasta{$firstkey}}){
     push @array $fasta{$firstkey}{$secondkey};
   }
 }
