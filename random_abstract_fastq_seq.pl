@@ -22,7 +22,7 @@ $seed ||=2000;
 my $randarr=();
 my $a;
 while($a<=$seed){
-  my $value=rand($seed);
+  my $value=int(rand($seed));
   push @randarr,$value;
   $a++;
 }
