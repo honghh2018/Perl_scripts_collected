@@ -21,7 +21,7 @@ while(<$in1>){
                 }
 
         }
-        print @array;
+        #print @array;
 }
 for my $line1(<$in3>){
         chomp $line1;
