@@ -9,7 +9,7 @@ my %getopts;
 Getoptions(\%getopts,"infile=s","outfile=s","width=s","h");
 &USAGE if(!defined $getopts{infile} and !defined $getopts{outfile} and $getopts{width} and $getopts{h});
 
-if($getopts{width}<10 && $getopts{width}>200){
+if($getopts{width}<10 || $getopts{width}>200){
   print "your width parameter wrong,please try 10-200\n";
   exit;
 }
