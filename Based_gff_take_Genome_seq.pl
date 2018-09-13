@@ -3,7 +3,7 @@ use strict;
 use warnings;
 use FindBin '$Bin';
 use Getopt::Long;
-use Cwd wq(abs_path getcwd);
+use Cwd qw(abs_path getcwd);
 use File::Basename;
 
 
