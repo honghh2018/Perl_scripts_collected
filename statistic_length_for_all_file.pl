@@ -69,9 +69,9 @@ close OUT;
 sub USAGE{
         my $usage=<<EOF;
         -----------------------
+        contact:honghh\@biomarker.com.cn
         USAGE:
-        
-
+        $pragram_name -io <directory> -io <file> －h      
         -----------------------
 EOF
         print $usage;
