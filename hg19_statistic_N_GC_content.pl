@@ -12,7 +12,7 @@ my($infasta,$outfile);
 GetOptions(
   "config:s"  =>\$infasta,
   "outdir:s" =>\$outfile,
-  "h|?" =>\$USAGE,
+  "h|?" =>\&USAGE,
 ) or &USAGE;
 &USAGE unless($infasta and $outfile);
 
