@@ -127,22 +127,17 @@ open(IN,"$options{i}");
 open(OUT,">$options{o}");
 open(OUTF_G,">Intron_Outnumber_$options{T}_Gene_ID.list");
 
-##filter file header of gff3
-while(<IN>){
-        chomp;
-        if($_=~/^\w+/){
-                last;
-        }else{
-                print OUT $_,"\n";
-        }
-}
 
-my $lastid=0; #
+
+my $lastid="@"; #initial value that file was no the symbol on it  
 my $flag; #flag mark
 my $count=0;
 while(<IN>){
 	chomp;
-	next if(/\#/); #match # skip　loop
+	if(/\#/){
+		print OUT $_,"\n";
+		next;
+	} #match # skip　loop
 	$flag=0;
 	if(/gene/){
 		my @field=split /\t/,$_;
@@ -153,12 +148,15 @@ while(<IN>){
 			$lastid=$lastid_sep[0];
 			$count++;
 			print OUTF_G $lastid_sep[0],"\n";
+			print $lastid,"\n";
 		}
 	}
 	if($flag==1 || $_=~/$lastid/){
 		next;	
 	}
 		print OUT $_,"\n";	
+	
+	
 }
 print "Intron_Outnumber_$options{T}_Gene_ID number:",$count,"\n";
 push @array,($count,$options{s});
@@ -168,6 +166,7 @@ close IN;
 close OUT;
 close OUTF_G;
 #close OUT1;
+
 
 #########################################################
 modified_gff_file_add_gene.pl
@@ -198,7 +197,7 @@ sub readgff{
 	if($line =~/mRNA/){
 		my @array=split /\s+/,$line;
 		print OUT $array[0],"\t",$array[1],"\t","gene","\t",$array[3],"\t",$array[4],"\t",$array[5],"\t",$array[6],"\t",$array[7],"\t",$array[8],"\n";
-		$array[8]=~s/(ID\=Bras_T[0-9]+)(.*)/$1\.1$2/g;
+		#$array[8]=~s/(ID\=Bras_T[0-9]+)(.*)/$1\.1$2/g;
 		$array[8]=~m/ID\=(Bras_T[0-9]+)(.*)/;
 		print OUT $array[0],"\t",$array[1],"\t",$array[2],"\t",$array[3],"\t",$array[4],"\t",$array[5],"\t",$array[6],"\t",$array[7],"\t","$array[8]",";","Parent=$1","\n";
 	}else{
@@ -207,7 +206,7 @@ sub readgff{
 			print OUT $line;
 		}else{
 			if($line !~/gene/){
-				 $array1[8]=~s/(ID\=Bras_T[0-9]+)(.*)/$1\.1$2/g;
+				 #$array1[8]=~s/(ID\=Bras_T[0-9]+)(.*)/$1\.1$2/g;
                         	print OUT $array1[0],"\t",$array1[1],"\t",$array1[2],"\t",$array1[3],"\t",$array1[4],"\t",$array1[5],"\t",$array1[6],"\t",$array1[7],"\t","$array1[8]","\n";
 			}
 					
@@ -224,7 +223,6 @@ close OUT;
 
 __END__
 ID=Bras_T03086
-
 
 
 
