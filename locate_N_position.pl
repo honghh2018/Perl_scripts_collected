@@ -101,7 +101,7 @@ sub rev_N{
 sub USAGE{
 my $usage=<<USAGE;
 	Contact:xiaohui\@princes_archase
-	Usage:perl $0 -fa [fa1,fa2,fa3] -o [result]
+	Usage:perl $0 -fa [fa1 fa2 fa3] -o [result]
 USAGE
 	print $usage;
 	exit;
